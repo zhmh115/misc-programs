@@ -9,7 +9,9 @@ typedef struct LNode {
 
 int GetListLength(LinkList pHead) {
 	if (pHead == NULL) return -1;
+
 	int length = 0;
+
 	ListNode *pNode = pHead->pNext;
 	while (pNode != NULL) {
 		length++;
