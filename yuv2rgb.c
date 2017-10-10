@@ -14,7 +14,7 @@ struct RGB {
 	int g;
 	int b;
 };
-static struct RGB yuvTorgb(unsigned char Y, unsigned char U, unsigned char V) {
+static struct RGB yuv_to_rgb(unsigned char Y, unsigned char U, unsigned char V) {
 	struct RGB rgb;
 	rgb.r = (int) (Y+1.4075*(V-128));
 	rgb.g = (int) (Y - 0.3455*(U-128) - 0.7169*(V-128));
@@ -41,12 +41,12 @@ static void yuv422_to_rgb24(unsigned char* buf, int len) {
 		   int Y2 = U+3;
 		   int V = U+2;
 		   int index = (U>>1)*3;
-		   struct RGB tmp = yuvTorgb(buf[Y1], buf[U], buf[V]);
+		   struct RGB tmp = yuv_to_rgb(buf[Y1], buf[U], buf[V]);
 		   rgbbuf[index+R] = tmp.r;
 		   rgbbuf[index+G] = tmp.g;
 		   rgbbuf[index+B] = tmp.b;
 		   index += 3;
-		   struct RGB tmp2 = yuvTorgb(buf[Y2], buf[U], buf[V]);
+		   struct RGB tmp2 = yuv_to_rgb(buf[Y2], buf[U], buf[V]);
 		   rgbbuf[index+R] = tmp2.r;
 		   rgbbuf[index+G] = tmp2.g;
 		   rgbbuf[index+B] = tmp2.b;
