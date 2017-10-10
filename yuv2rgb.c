@@ -6,6 +6,7 @@
 #define R 0
 #define G 1
 #define B 2
+
 static unsigned char buf[MAX_BUF_SIZE];
 static int rgbbuf[MAX_RGB_SIZE];
 static unsigned char rgb2[MAX_RGB_SIZE];
@@ -30,6 +31,7 @@ static void yuv422_to_rgb24(unsigned char* buf, int len) {
 
 	int i = 0;
 	int j = 0;
+
 	int width = 176;
 	int height = 144;
 	int lineWidth = 176*2;
@@ -59,18 +61,18 @@ static void yuv422_to_rgb24(unsigned char* buf, int len) {
 int main() {
 	int n;
 	int fd = open("colorbar", O_RDWR, S_IRWXU);
-	n = read(fd, buf, 50688);
+	n = read(fd, buf, MAX_BUF_SIZE);
 	if (n < 0) {
 		printf("read error\n");
 	}
 
-	yuv422_to_rgb24(buf, 50688);
+	yuv422_to_rgb24(buf, MAX_BUF_SIZE);
 	int fd2 = open("colorbar_rgb", O_RDWR|O_CREAT, S_IRWXU);
 	int i;
 	for (i =0; i<MAX_RGB_SIZE; i++) {
 		rgb2[i] = (unsigned char)rgbbuf[i];
 	}
-	int size = write(fd2, rgb2, 50688);
+	int size = write(fd2, rgb2, MAX_RGB_SIZE);
 	if (size < 0) {
 		printf("write error\n");
 	}
